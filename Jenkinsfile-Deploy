@@ -1,0 +1,12 @@
+pipeline {
+
+    agent any
+    stages {
+        stage('Deploy'){
+
+            steps{
+                sh "helm upgrade --install demo local/demo-k8s-0.2.0.tgz"
+            }
+        }
+    }
+}
