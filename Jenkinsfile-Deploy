@@ -6,7 +6,7 @@ pipeline {
 
             steps{
             	script{
-            		env.TIME_OUT = 4
+            		env.TIME_OUT = 60
             		env.VERSION = sh(script: 'helm search local/demo-k8s | cut -f2 | sed -n 2p',returnStdout: true).trim()
             		def completeChartName = "local/demo-k8s-${env.VERSION}.tgz"
             		println "Desplegando el chart [$completeChartName]"
@@ -16,7 +16,7 @@ pipeline {
             post{
             	failure{
 
-					println "Rollback del deploy de la version [${env.VERSION}] despues de esperar [${env.TIME_OUT}]"
+					println "Rollback del deploy de la version [${env.VERSION}] despues de esperar [${env.TIME_OUT}] segundos"
 					sh "helm rollback demo 1"	
             	}
             }
