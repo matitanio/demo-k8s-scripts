@@ -15,9 +15,9 @@ pipeline {
             }
             post{
             	failure{
-
-					println "Rollback del deploy de la version [${env.VERSION}] despues de esperar [${env.TIME_OUT}] segundos"
-					sh "helm rollback demo 1"	
+            		def viejaVersion = sh(script: 'helm search local/demo-k8s | cut -f2 | sed -n 2p',returnStdout: true).trim()
+					println "El deploy version [${env.VERSION}] fallo despues de esperar despues de esperar [${env.TIME_OUT}] segundos, la version [${viejaVersion} qued activa]"
+					
             	}
             }
         }
