@@ -8,7 +8,7 @@ pipeline {
             	script{
             		def currentVersion = sh script: 'helm search local/demo-k8s | cut -f2 | sed -n 2p',returnStdout: true
             		println "Desplegando la version $currentVersion"
-            		def completeChartName = "local/demo-k8s-${currentVersion}"+".tgz"
+            		def completeChartName = "local/demo-k8s-${currentVersion}\.tgz"
             		println completeChartName
                 	sh "helm upgrade demo ${completeChartName}"
             	}
