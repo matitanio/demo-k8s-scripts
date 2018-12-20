@@ -5,7 +5,8 @@ pipeline {
         stage('Deploy'){
 
             steps{
-                sh "helm upgrade --install demo local/demo-k8s-0.2.0.tgz"
+            	def currentVersion = sh script: 'helm search local/demo | cut -f2 | sed -n 2p',returnStdout: true
+                sh "helm upgrade --install demo local/demo-k8s-${currentVersion}.tgz"
             }
         }
     }
