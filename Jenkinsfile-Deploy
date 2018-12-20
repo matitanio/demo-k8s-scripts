@@ -6,8 +6,8 @@ pipeline {
 
             steps{
             	script{
-            		env.TIME_OUT = 4;
-            		env.VERSION = = sh(script: 'helm search local/demo-k8s | cut -f2 | sed -n 2p',returnStdout: true).trim()
+            		env.TIME_OUT = 4
+            		env.VERSION = sh(script: 'helm search local/demo-k8s | cut -f2 | sed -n 2p',returnStdout: true).trim()
             		def completeChartName = "local/demo-k8s-${env.VERSION}.tgz"
             		println "Desplegando el chart [$completeChartName]"
             		sh "helm upgrade demo ${completeChartName} --wait --timeout ${env.TIME_OUT}"
