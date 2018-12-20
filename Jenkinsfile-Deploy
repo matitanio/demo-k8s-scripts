@@ -6,11 +6,19 @@ pipeline {
 
             steps{
             	script{
-            		def currentVersion = sh(script: 'helm search local/demo-k8s | cut -f2 | sed -n 2p',returnStdout: true).trim()
-            		println "Desplegando la version $currentVersion"
-            		def completeChartName = "local/demo-k8s-${currentVersion}.tgz"
-            		println completeChartName
-                	sh "helm upgrade demo ${completeChartName}"
+            		env.TIME_OUT = 4;
+            		env.VERSION = = sh(script: 'helm search local/demo-k8s | cut -f2 | sed -n 2p',returnStdout: true).trim()            		
+            		def completeChartName = "local/demo-k8s-${env.VERSION}.tgz"
+            		
+            		println "Desplegando el chart [$completeChartName]"
+                	sh "helm upgrade demo ${completeChartName} --wait --timeout ${env.TIME_OUT}"
+            	}
+            }
+            post{
+            	failure{
+
+					println "Rollback del deploy de la version [${env.VERSION}] despues de esperar [${env.TIME_OUT}]"
+					sh "helm rollback demo 1"	
             	}
             }
         }
