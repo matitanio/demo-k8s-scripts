@@ -6,7 +6,7 @@ pipeline {
 
             steps{
             	script{
-            		def currentVersion = sh script: 'helm search local/demo | cut -f2 | sed -n 2p',returnStdout: true
+            		def currentVersion = sh script: 'helm search local/demo-k8s | cut -f2 | sed -n 2p',returnStdout: true
             		println "Desplegando la version $currentVersion"
                 	sh "helm upgrade --install demo local/demo-k8s-${currentVersion}.tgz"
             	}
