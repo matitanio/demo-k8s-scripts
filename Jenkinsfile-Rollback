@@ -7,7 +7,7 @@ pipeline {
             steps{
             	script{
             		env.TIME_OUT = 60
-                	sh "helm rollback demo 1 --wait --timeout ${env.TIME_OUT}""
+                	sh "helm rollback demo 1 --wait --timeout ${env.TIME_OUT}"
             	}
             }
             post{
